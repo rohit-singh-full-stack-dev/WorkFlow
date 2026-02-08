@@ -1,50 +1,131 @@
-# Welcome to your Expo app 👋
+# WorkFlow — Staff Tracking & Attendance Management
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A **production-ready** staff tracking and attendance platform built for teams that need real-time location visibility, automated attendance, and role-based management—without expensive enterprise solutions.
 
-## Get started
+---
 
-1. Install dependencies
+## Why WorkFlow?
 
-   ```bash
-   npm install
-   ```
+- **Live location tracking** — See where your team is during work hours, with 2-minute interval updates and automatic start/stop on check-in/out.
+- **Attendance built-in** — GPS-verified check-in/check-out, automatic working hours, and same-day edits for managers.
+- **Clear roles** — Staff (check-in only), Managers (team view + edits), Admin (full control, reports, settings).
+- **One codebase, multiple surfaces** — Mobile app for field staff, web dashboard for managers and admins.
 
-2. Start the app
+Ideal for field teams, operations, and small-to-mid businesses that need accountability and visibility without complex setup.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## What’s Included
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+| Area | Description |
+|------|-------------|
+| **Mobile app (Expo)** | Staff check-in/out, background location tracking, team view for managers, history, profile. |
+| **Admin dashboard (Next.js)** | Staff & device management, attendance, live map, reports, settings. Responsive for desktop and tablet. |
+| **Backend (Supabase)** | Auth (OTP), PostgreSQL, Row Level Security (RLS), realtime. Migrations for profiles, attendance, location logs, teams. |
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## Tech Stack
 
-When you're ready, run:
+| Layer | Technologies |
+|-------|--------------|
+| **Mobile** | Expo (React Native), Expo Router, NativeWind (Tailwind), React Native Maps, Supabase client |
+| **Admin** | Next.js 16, React 19, Tailwind CSS, Radix UI, Recharts, Supabase, Google Maps |
+| **Backend** | Supabase (Auth, Postgres, RLS, Realtime) |
 
-```bash
-npm run reset-project
+---
+
+## Features
+
+- **OTP login** — Phone-based auth, no passwords.
+- **GPS check-in/out** — Time and location captured; working hours calculated automatically.
+- **Background location** — Updates every 2 minutes during work hours; stops after check-out.
+- **Role-based access** — Staff / Manager / Admin with appropriate data and UI.
+- **Live map** — Managers see team locations; admins see full picture.
+- **Day-level routes** — View a staff member’s path for a selected date (polyline on map).
+- **Reports & export** — Attendance and analytics from the admin dashboard.
+- **Data retention** — Configurable retention (e.g. 30-day location logs) via migrations.
+
+---
+
+## Project Structure
+
+```
+WorkFlow/
+├── app/                    # Expo app (staff + manager mobile flows)
+│   ├── (manager)/          # Manager: team, map, member detail, day map
+│   ├── auth/               # Login, signup
+│   ├── history.tsx
+│   ├── profile.tsx
+│   └── ...
+├── admin/                  # Next.js admin dashboard
+│   └── src/app/            # Attendance, devices, map, reports, settings, staff
+├── components/              # Shared UI (auth, cards, etc.)
+├── lib/                    # Auth context, Supabase client, location service
+├── hooks/                  # Location tracking, theme
+├── supabase/migrations/    # Schema and RPCs (profiles, attendance, location_logs, teams)
+└── assets/
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## Getting Started
 
-To learn more about developing your project with Expo, look at the following resources:
+### Prerequisites
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Node.js 18+
+- npm or yarn
+- Supabase project (for auth and database)
+- For mobile: Android Studio (Android) / Xcode (iOS simulator)
 
-## Join the community
+### 1. Install dependencies
 
-Join our community of developers creating universal apps.
+```bash
+# Mobile app
+npm install
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Admin dashboard (optional, for web admin)
+cd admin && npm install
+```
+
+### 2. Configure environment
+
+Add your Supabase URL and anon key (e.g. in `.env` or app config) for both the Expo app and the admin dashboard.
+
+### 3. Run the app
+
+```bash
+# Start Expo (mobile + web)
+npm start
+# Then: press 'a' for Android, 'w' for web, or scan QR with Expo Go
+
+# Admin dashboard (separate terminal)
+cd admin && npm run dev
+```
+
+### 4. Database
+
+Apply migrations in `supabase/migrations/` to your Supabase project (via Supabase CLI or Dashboard SQL editor).
+
+---
+
+## Build & Deploy
+
+- **Android:** `npm run build:android:preview` or `build:android:production` (EAS Build).
+- **Admin:** `cd admin && npm run build && npm run start` (or deploy to Vercel/Node host).
+
+---
+
+## Security & Compliance
+
+- **Row Level Security (RLS)** — All access controlled in Postgres by role (staff/manager/admin).
+- **Tracking only during work** — Location is sent only after check-in and stops at check-out.
+- **Transparent use** — Designed for internal use with clear policies; tracking limited to work hours.
+
+---
+
+## Summary
+
+WorkFlow is a complete, production-oriented solution for staff tracking and attendance: mobile app for the field, web dashboard for management, and Supabase for scalable auth and data—suitable for portfolios and client demos on Upwork.
+
+For detailed product and implementation notes, see [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md).

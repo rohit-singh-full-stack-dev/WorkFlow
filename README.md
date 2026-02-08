@@ -2,8 +2,6 @@
 
 A **production-ready** staff tracking and attendance platform built for teams that need real-time location visibility, automated attendance, and role-based management—without expensive enterprise solutions.
 
----
-
 ## Why WorkFlow?
 
 - **Live location tracking** — See where your team is during work hours, with 2-minute interval updates and automatic start/stop on check-in/out.
@@ -13,7 +11,6 @@ A **production-ready** staff tracking and attendance platform built for teams th
 
 Ideal for field teams, operations, and small-to-mid businesses that need accountability and visibility without complex setup.
 
----
 
 ## What’s Included
 
@@ -23,7 +20,6 @@ Ideal for field teams, operations, and small-to-mid businesses that need account
 | **Admin dashboard (Next.js)** | Staff & device management, attendance, live map, reports, settings. Responsive for desktop and tablet. |
 | **Backend (Supabase)** | Auth (OTP), PostgreSQL, Row Level Security (RLS), realtime. Migrations for profiles, attendance, location logs, teams. |
 
----
 
 ## Tech Stack
 
@@ -33,7 +29,6 @@ Ideal for field teams, operations, and small-to-mid businesses that need account
 | **Admin** | Next.js 16, React 19, Tailwind CSS, Radix UI, Recharts, Supabase, Google Maps |
 | **Backend** | Supabase (Auth, Postgres, RLS, Realtime) |
 
----
 
 ## Features
 
@@ -46,7 +41,6 @@ Ideal for field teams, operations, and small-to-mid businesses that need account
 - **Reports & export** — Attendance and analytics from the admin dashboard.
 - **Data retention** — Configurable retention (e.g. 30-day location logs) via migrations.
 
----
 
 ## Project Structure
 
@@ -67,7 +61,6 @@ WorkFlow/
 └── assets/
 ```
 
----
 
 ## Getting Started
 
@@ -107,22 +100,16 @@ cd admin && npm run dev
 
 Apply migrations in `supabase/migrations/` to your Supabase project (via Supabase CLI or Dashboard SQL editor).
 
----
-
 ## Build & Deploy
 
 - **Android:** `npm run build:android:preview` or `build:android:production` (EAS Build).
 - **Admin:** `cd admin && npm run build && npm run start` (or deploy to Vercel/Node host).
-
----
 
 ## Security & Compliance
 
 - **Row Level Security (RLS)** — All access controlled in Postgres by role (staff/manager/admin).
 - **Tracking only during work** — Location is sent only after check-in and stops at check-out.
 - **Transparent use** — Designed for internal use with clear policies; tracking limited to work hours.
-
----
 
 ## Summary
 

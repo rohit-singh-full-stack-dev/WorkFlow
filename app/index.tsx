@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/auth-context';
 import { supabase } from '@/lib/supabase';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
-import { History as HistoryIcon, LogOut, User as UserIcon } from 'lucide-react-native';
+import { History as HistoryIcon, LogOut } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, AppState, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -199,58 +199,84 @@ export default function HomeScreen() {
     };
 
     const getLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert('Permission to access location was denied');
-            return null;
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-
-        // Reverse geocode to get address details (India only - no country field needed)
-        let address = {
-            city: null as string | null,
-            state: null as string | null,
-            pincode: null as string | null,
-            fullAddress: null as string | null,
-        };
-
         try {
-            const reverseGeocode = await Location.reverseGeocodeAsync({
-                latitude,
-                longitude,
+            // Check if location services are enabled
+            const isEnabled = await Location.hasServicesEnabledAsync();
+            if (!isEnabled) {
+                Alert.alert(
+                    'Location Services Disabled',
+                    'Please enable location services in your device settings to check in.',
+                    [{ text: 'OK' }]
+                );
+                return null;
+            }
+
+            // Request foreground permissions
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert(
+                    'Permission Denied',
+                    'Location permission is required to check in. Please grant location access in app settings.',
+                    [{ text: 'OK' }]
+                );
+                return null;
+            }
+
+            // Get current location
+            const location = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.High,
+                timeInterval: 5000,
+                distanceInterval: 0,
             });
 
-            if (reverseGeocode && reverseGeocode.length > 0) {
-                const geo = reverseGeocode[0];
-                address = {
-                    city: geo.city || geo.subregion || null,
-                    state: geo.region || null,
-                    pincode: geo.postalCode || null,
-                    fullAddress: [
-                        geo.streetNumber,
-                        geo.street,
-                        geo.district,
-                        geo.city || geo.subregion,
-                        geo.region,
-                        geo.postalCode,
-                    ]
-                        .filter(Boolean)
-                        .join(', ') || null,
-                };
-                console.log('📍 Reverse geocoded address:', address);
-            }
-        } catch (geoError) {
-            console.warn('Reverse geocoding failed:', geoError);
-            // Continue without address - lat/lng is more important
-        }
+            const { latitude, longitude } = location.coords;
 
-        return {
-            lat: latitude,
-            lng: longitude,
-            ...address,
-        };
+            // Reverse geocode to get address details (India only - no country field needed)
+            let address = {
+                city: null as string | null,
+                state: null as string | null,
+                pincode: null as string | null,
+                fullAddress: null as string | null,
+            };
+
+            try {
+                const reverseGeocode = await Location.reverseGeocodeAsync({
+                    latitude,
+                    longitude,
+                });
+
+                if (reverseGeocode && reverseGeocode.length > 0) {
+                    const geo = reverseGeocode[0];
+                    address = {
+                        city: geo.city || geo.subregion || null,
+                        state: geo.region || null,
+                        pincode: geo.postalCode || null,
+                        fullAddress: [
+                            geo.streetNumber,
+                            geo.street,
+                            geo.district,
+                            geo.city || geo.subregion,
+                            geo.region,
+                            geo.postalCode,
+                        ]
+                            .filter(Boolean)
+                            .join(', ') || null,
+                    };
+                    console.log('📍 Reverse geocoded address:', address);
+                }
+            } catch (geoError) {
+                console.warn('Reverse geocoding failed:', geoError);
+                // Continue without address - lat/lng is more important
+            }
+
+            return {
+                lat: latitude,
+                lng: longitude,
+                ...address,
+            };
+        } catch (error: any) {
+            console.error('Location error:', error);
+        }
     };
 
     const handleCheckIn = async () => {
@@ -513,7 +539,9 @@ export default function HomeScreen() {
                     onPress={() => router.push('/profile')}
                     className="w-10 h-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700"
                 >
-                    <UserIcon size={24} color="#6B7280" />
+                    <Text className="text-base font-bold text-gray-600 dark:text-gray-300">
+                        {profile?.full_name?.charAt(0).toUpperCase() || '?'}
+                    </Text>
                 </TouchableOpacity>
                 <View className="flex-row items-center gap-3">
                     <TouchableOpacity

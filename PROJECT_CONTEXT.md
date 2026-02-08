@@ -1,8 +1,10 @@
-# Trackora - Staff Tracking App
+# WorkFlow - Staff Tracking App
 
 ## Project Overview
 
-Trackora is a staff tracking and attendance management app built for internal company use. The app helps track staff live locations and manage attendance, replacing expensive market solutions.
+WorkFlow is a staff tracking and attendance management app built for internal company use. The app helps track staff live locations and manage attendance, replacing expensive market solutions.
+
+- App name: **WorkFlow** (formerly Trackora)
 
 ## Key Requirements
 
@@ -92,6 +94,13 @@ Trackora is a staff tracking and attendance management app built for internal co
    - id (uuid)
    - team_id (uuid, references teams)
    - user_id (uuid, references profiles)
+
+### Manager: Viewing a day's location (UX reference)
+Common patterns in employee/field tracking apps (Timeero, Buddy Punch, Mapsly, Jibble, etc.):
+- **List + Map**: List view shows check-in/check-out (time + place). A separate "View route" / "View on map" opens the day's path on a map.
+- **Route on map**: Full-day path as a line (polyline), with clear start (e.g. green dot) and end (e.g. pin) markers. Path is often simplified (reduced points) to avoid zigzag clutter.
+- **Date picker**: Manager selects date (e.g. last 7–30 days), then sees that day's trail or route.
+- **No per-point geocoding**: Geocode only start and end; mid-day points are drawn as a path without place names to limit API calls.
 
 ### Security (Row Level Security)
 - **Staff**: Can only read/insert their own data

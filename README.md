@@ -1,118 +1,117 @@
-# WorkFlow — Staff Tracking & Attendance Management
+WorkFlow
 
-A **production-ready** staff tracking and attendance platform built for teams that need real-time location visibility, automated attendance, and role-based management—without expensive enterprise solutions.
+WorkFlow is a modern internal workforce management & live location tracking platform designed for companies with field staff and non-technical employees. It helps organizations track attendance, monitor real-time employee location during working hours, and manage daily operations through a simple, secure mobile app.
 
-## Why WorkFlow?
+This project is built as a production-ready internal tool, following Google Play policies for background location, foreground services, and privacy compliance.
 
-- **Live location tracking** — See where your team is during work hours, with 2-minute interval updates and automatic start/stop on check-in/out.
-- **Attendance built-in** — GPS-verified check-in/check-out, automatic working hours, and same-day edits for managers.
-- **Clear roles** — Staff (check-in only), Managers (team view + edits), Admin (full control, reports, settings).
-- **One codebase, multiple surfaces** — Mobile app for field staff, web dashboard for managers and admins.
+⸻
 
-Ideal for field teams, operations, and small-to-mid businesses that need accountability and visibility without complex setup.
+🚀 What Problem WorkFlow Solves
 
+Many organizations with field employees struggle with:
+	•	Fake or inaccurate attendance
+	•	No visibility into on-ground staff movement
+	•	Manual reporting and follow-ups
+	•	Complex tools that non-technical staff can’t use
 
-## What’s Included
+WorkFlow solves this by providing:
+	•	GPS-verified attendance
+	•	User-initiated real-time location tracking
+	•	Clear audit trails for management
+	•	A simple mobile-first experience for staff
 
-| Area | Description |
-|------|-------------|
-| **Mobile app (Expo)** | Staff check-in/out, background location tracking, team view for managers, history, profile. |
-| **Admin dashboard (Next.js)** | Staff & device management, attendance, live map, reports, settings. Responsive for desktop and tablet. |
-| **Backend (Supabase)** | Auth (OTP), PostgreSQL, Row Level Security (RLS), realtime. Migrations for profiles, attendance, location logs, teams. |
+⸻
 
+✨ Key Features
 
-## Tech Stack
+📍 Live Location Tracking
+	•	Real-time GPS tracking during working hours only
+	•	User-initiated tracking with explicit consent
+	•	Foreground service with visible notification (Play Store compliant)
 
-| Layer | Technologies |
-|-------|--------------|
-| **Mobile** | Expo (React Native), Expo Router, NativeWind (Tailwind), React Native Maps, Supabase client |
-| **Admin** | Next.js 16, React 19, Tailwind CSS, Radix UI, Recharts, Supabase, Google Maps |
-| **Backend** | Supabase (Auth, Postgres, RLS, Realtime) |
+⏱ Attendance Management
+	•	One-tap start / end duty
+	•	Location-verified check-in and check-out
+	•	Prevents proxy or fake attendance
 
+🔐 Secure Authentication
+	•	Mobile number + OTP login
+	•	Designed for non-technical users
 
-## Features
+📱 Employee-Friendly Mobile App
+	•	Clean and minimal UI
+	•	Works reliably in background
+	•	Optimized for low learning curve
 
-- **OTP login** — Phone-based auth, no passwords.
-- **GPS check-in/out** — Time and location captured; working hours calculated automatically.
-- **Background location** — Updates every 2 minutes during work hours; stops after check-out.
-- **Role-based access** — Staff / Manager / Admin with appropriate data and UI.
-- **Live map** — Managers see team locations; admins see full picture.
-- **Day-level routes** — View a staff member’s path for a selected date (polyline on map).
-- **Reports & export** — Attendance and analytics from the admin dashboard.
-- **Data retention** — Configurable retention (e.g. 30-day location logs) via migrations.
+🛡 Privacy & Compliance
+	•	Background location used only for business purposes
+	•	Tracking limited to work sessions
+	•	Clear in-app disclosure and privacy policy
+	•	Google Play policy compliant
 
+⸻
 
-## Project Structure
+🏗 Tech Stack
+	•	Frontend: React Native / Expo
+	•	Backend: Supabase (Auth + Database)
+	•	Maps & Location: Android Location APIs
+	•	Deployment: Google Play Console (Closed Testing → Unlisted Production)
 
-```
-WorkFlow/
-├── app/                    # Expo app (staff + manager mobile flows)
-│   ├── (manager)/          # Manager: team, map, member detail, day map
-│   ├── auth/               # Login, signup
-│   ├── history.tsx
-│   ├── profile.tsx
-│   └── ...
-├── admin/                  # Next.js admin dashboard
-│   └── src/app/            # Attendance, devices, map, reports, settings, staff
-├── components/              # Shared UI (auth, cards, etc.)
-├── lib/                    # Auth context, Supabase client, location service
-├── hooks/                  # Location tracking, theme
-├── supabase/migrations/    # Schema and RPCs (profiles, attendance, location_logs, teams)
-└── assets/
-```
+⸻
 
+📦 Use Cases
 
-## Getting Started
+WorkFlow is ideal for:
+	•	Field sales teams
+	•	Service & maintenance staff
+	•	Construction & on-site workers
+	•	Logistics and delivery teams
+	•	Internal workforce tracking (non-public apps)
 
-### Prerequisites
+⸻
 
-- Node.js 18+
-- npm or yarn
-- Supabase project (for auth and database)
-- For mobile: Android Studio (Android) / Xcode (iOS simulator)
+🔄 App Distribution Strategy
+	•	Distributed as an Unlisted app on Google Play
+	•	Easy installation via a single Play Store link
+	•	Automatic updates for all users
+	•	No public visibility
 
-### 1. Install dependencies
+Perfect for internal company usage.
 
-```bash
-# Mobile app
-npm install
+⸻
 
-# Admin dashboard (optional, for web admin)
-cd admin && npm install
-```
+🔍 Project Highlights (For Clients)
+	•	Built with real-world Google Play policy constraints
+	•	Handles background location + foreground services correctly
+	•	Designed for non-technical, labor-class users
+	•	Scalable from 10 to 500+ employees
+	•	Production-ready architecture
 
-### 2. Configure environment
+⸻
 
-Add your Supabase URL and anon key (e.g. in `.env` or app config) for both the Expo app and the admin dashboard.
+👨‍💻 About the Developer
 
-### 3. Run the app
+This project is developed by a Senior Full-Stack Developer with experience building:
+	•	Internal enterprise tools
+	•	Workforce & employee tracking systems
+	•	Secure mobile applications
+	•	Scalable backend architectures
 
-```bash
-# Start Expo (mobile + web)
-npm start
-# Then: press 'a' for Android, 'w' for web, or scan QR with Expo Go
+If you are looking for:
+	•	A custom employee tracking solution
+	•	A private internal app for your organization
+	•	Or a developer who understands both tech and compliance
 
-# Admin dashboard (separate terminal)
-cd admin && npm run dev
-```
+WorkFlow is a strong reference implementation.
 
-### 4. Database
+⸻
 
-Apply migrations in `supabase/migrations/` to your Supabase project (via Supabase CLI or Dashboard SQL editor).
+📩 Interested in a Similar Solution?
 
-## Build & Deploy
+If you want a custom version of WorkFlow for your business, or a similar internal tool:
 
-- **Android:** `npm run build:android:preview` or `build:android:production` (EAS Build).
-- **Admin:** `cd admin && npm run build && npm run start` (or deploy to Vercel/Node host).
+👉 Feel free to reach out via Upwork or GitHub.
 
-## Security & Compliance
+⸻
 
-- **Row Level Security (RLS)** — All access controlled in Postgres by role (staff/manager/admin).
-- **Tracking only during work** — Location is sent only after check-in and stops at check-out.
-- **Transparent use** — Designed for internal use with clear policies; tracking limited to work hours.
-
-## Summary
-
-WorkFlow is a complete, production-oriented solution for staff tracking and attendance: mobile app for the field, web dashboard for management, and Supabase for scalable auth and data—suitable for portfolios and client demos on Upwork.
-
-For detailed product and implementation notes, see [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md).
+⚠️ Note: This repository represents an internal workforce management solution. It is not intended for public consumer use.
